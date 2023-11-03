@@ -1,20 +1,31 @@
-from src.database import Base
-from sqlalchemy import Column, Integer, String, MetaData, Table
-
+from datetime import datetime
+from sqlalchemy import Column, JSON, ForeignKey, String, Table, TIMESTAMP, MetaData, Integer
 
 metadata = MetaData()
 
-class User(Base):
-    __tablename__ = 'users'
-
-    id = Column(Integer, primary_key=True)
-    username = Column(String)
-    email = Column(String, unique=True)
-    password = Column(String)
+roles = Table(
+    "roles",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("name", String, nullable=False),
+    Column("permissions", JSON),
+)
 
 users = Table(
     "users",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("fsd", String)
+    Column("email", String, nullable=False),
+    Column("username", String, nullable=False),
+    Column("password", String, nullable=False),
+    Column("registered_at", TIMESTAMP, default=datetime.utcnow),
 )
+
+
+'''
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    full_name = Column(String)
+    created_at = Column(DateTime, index=True, default=datetime.utcnow)
+'''

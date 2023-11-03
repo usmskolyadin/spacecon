@@ -18,10 +18,13 @@ class DbSettings(BaseModel):
 
     echo: bool = True
 
+class AuthSettings(BaseModel):
+    JWT_SECRET_KEY: str = os.environ.get("JWT_SECRET_KEY")
+    JWT_REFRESH_SECRET_KEY: str = os.environ.get("JWT_REFRESH_SECRET_KEY")
 
 class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
     db: DbSettings = DbSettings()
-
+    auth: AuthSettings = AuthSettings()
 
 settings = Settings()
